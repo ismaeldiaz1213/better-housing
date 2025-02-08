@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "es6"],
+    "allowJs": true,           // allow JS files to be compiled (useful if mixing JS and TS)
+    "jsx": "react-jsx",        // Enable JSX syntax for React 17+ (use react-jsx for newer JSX transform)
+    "strict": true,            // Enable strict type-checking options
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src"]
+}
