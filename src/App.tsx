@@ -27,6 +27,7 @@ const App: React.FC = () => {
         <Router>
           <Routes>
             <Route path="/" element={<LogInPage />} />
+            <Route path="/home" element={<LogInPage />} />
             <Route path="/map-selection" element={<MapSelection />} />
             {/* Add a wildcard route for 404 */}
             <Route path="*" element={<NotFoundPage />} />

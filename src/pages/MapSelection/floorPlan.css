@@ -1,0 +1,28 @@
+.image-container {
+    position: relative; /* Container for positioning other elements */
+    width: 100%; /* Adjust width */
+    height: 500px; /* Adjust height */
+  }
+  
+  .background-image {
+    width: 100%; /* Full width of container */
+    height: 100%; /* Full height of container */
+    object-fit: cover; /* To make the image cover the whole area */
+  }
+  
+  .overlay-text {
+    position: absolute;
+    top: 20%; /* Adjust vertical position */
+    left: 10%; /* Adjust horizontal position */
+    color: white;
+    font-size: 2rem;
+    z-index: 2; /* Make sure it’s on top */
+  }
+  
+  .button-container {
+    position: absolute;
+    bottom: 20px; /* Adjust vertical position */
+    right: 20px; /* Adjust horizontal position */
+    z-index: 2; /* Make sure it’s on top */
+  }
+  
