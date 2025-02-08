@@ -3,7 +3,7 @@ import './App.css';
 import "@cloudscape-design/global-styles/index.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LogInPage from './pages/LogInPage';
-import MapSelection from './pages/MapSelection';
+import MapSelection from './pages/MapSelection/MapSelection';
 import NotFoundPage from './pages/NotFoundPage';
 import { TopNavigation } from '@cloudscape-design/components';
 
