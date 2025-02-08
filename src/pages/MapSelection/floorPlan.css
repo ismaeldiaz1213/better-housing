@@ -1,7 +1,7 @@
 .image-container {
     position: relative; /* Container for positioning other elements */
     width: 100%; /* Adjust width */
-    height: 500px; /* Adjust height */
+    height: 100%; /* Adjust height */
   }
   
   .background-image {
@@ -14,7 +14,7 @@
     position: absolute;
     top: 20%; /* Adjust vertical position */
     left: 10%; /* Adjust horizontal position */
-    color: white;
+    color: blue;
     font-size: 2rem;
     z-index: 2; /* Make sure it’s on top */
   }

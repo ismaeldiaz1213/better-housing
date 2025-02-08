@@ -1,12 +1,12 @@
 import React from 'react';
-import 'floorPlan.css';
-import floorPlan from '../../KilgoFloorPlans/24-25 Kilgo-1.png';
+import './floorPlan.css';
+import floorPlan from '../../KilgoFloorPlans/24-25 Kilgo-2.png';
 
 const FloorPlanOverlay: React.FC = () => {
     return (
         <div className="image-container">
             <img
-                src= 'floorPlan'
+                src = {floorPlan}
                 alt="background"
                 className="background-image"
             />

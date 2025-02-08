@@ -40,6 +40,7 @@ const MapSelection: React.FC = () => {
             </ButtonDropdown>
           </Box>
           {/**/}
+          <FloorPlanOverlay />
         </Container>
       </ContentLayout>
     </>
