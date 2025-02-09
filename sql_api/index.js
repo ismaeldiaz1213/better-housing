@@ -33,7 +33,7 @@ app.get("/users", async (req, res) => {
 
 //updating mechanism
 app.patch("/users/:net_id", async (req, res) => {
-    const net_id = await db.updateId(req.params.net_id, req.body)
+    const net_id = await db.updateUser(req.params.net_id, req.body)
 });
 
 app.listen(8000, () => console.log("server is running on port 8000"));

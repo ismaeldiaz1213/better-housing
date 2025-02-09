@@ -41,16 +41,20 @@ const LogInPage: React.FC = () => {
           console.log(data.users)
           const usernames = data.users.map(user => user.net_id);
           const passwords = data.users.map(user => user.password);
-          console.log(usernameIn);
-          console.log(usernames);
-          console.log(password);
-          console.log(passwords);
-          
+          const gender_preferences = data.users.map(user => user.gender_preference);
+          const bed_times = data.users.map(user => user.bed_time);
+          const noise_levels = data.users.map(user => user.noise_level);
+          const tidiness = data.users.map(user => user.tidiness);
 
+          console.log(gender_preferences)
+          console.log(bed_times)
+          console.log(noise_levels)
+          console.log(tidiness)
           if (usernames.includes(usernameIn) && passwords.includes(password)) {
             console.log("correct");
             updateValidation(' ');
-            navigate('/map-selection');
+            localStorage.setItem('currentNetId', usernameIn);
+            navigate('/user_preferences');
           } else {
             updateValidation('Incorrect login information!');
           }
