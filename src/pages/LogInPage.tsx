@@ -37,6 +37,7 @@ const LogInPage: React.FC = () => {
   
     useEffect(() => {
       if (data.users.length > 0) {
+          const user = data.users.find(user => user.net_id === usernameIn);
           console.log("data is not empty")
           console.log(data.users)
           const usernames = data.users.map(user => user.net_id);
@@ -50,7 +51,8 @@ const LogInPage: React.FC = () => {
           console.log(bed_times)
           console.log(noise_levels)
           console.log(tidiness)
-          if (usernames.includes(usernameIn) && passwords.includes(password)) {
+        
+          if (user && user.password === password) {
             console.log("correct");
             updateValidation(' ');
             localStorage.setItem('currentNetId', usernameIn);
@@ -59,7 +61,6 @@ const LogInPage: React.FC = () => {
             updateValidation('Incorrect login information!');
           }
           setIsLoading(false);
-
       } else {
         console.log("data is empty")
       }
