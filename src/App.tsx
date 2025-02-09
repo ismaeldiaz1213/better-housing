@@ -8,6 +8,7 @@ import MapSelection from './pages/MapSelection/MapSelection';
 import RoomSelection from './pages/MapSelection/RoomSelection';
 import NotFoundPage from './pages/NotFoundPage';
 import { TopNavigation } from '@cloudscape-design/components';
+import ReviewHousingInfo from './pages/ReviewHousingInfo';
 
 
 // Define a functional component with TypeScript annotations
@@ -31,6 +32,7 @@ const App: React.FC = () => {
             <Route path="/home" element={<Home />} />
             <Route path="/" element={<LogInPage />} />
             <Route path="/map-selection" element={<MapSelection />} />
+            <Route path="/review" element={<ReviewHousingInfo />} />
             <Route path="map-selection/floor/:floor/house/:house" element={<RoomSelection />} /> 
             {/* Add a wildcard route for 404 */}
             <Route path="*" element={<NotFoundPage />} />

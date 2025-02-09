@@ -1,7 +1,8 @@
 import React from 'react';
 import './floorPlan.css';
 import floorPlan from '../../KilgoFloorPlans/24-25 Kilgo-floor1-houseP.png';
-import { Badge, Box, Button, Container, Modal, SpaceBetween } from '@cloudscape-design/components';
+import picture from '../../pictureIcon.svg';
+import { Badge, Box, Button, Header, Link, Modal, SpaceBetween } from '@cloudscape-design/components';
 
 type roomNumberType = {
     roomNumberString: string;
@@ -16,11 +17,11 @@ type RoomButtonProps = {
 };
 
 const roomData: roomNumberType[] = [
-    { roomNumberString: 'P-101', xCoord: 5, yCoord: 55 },
-    { roomNumberString: 'P-102', xCoord: 5, yCoord: 36 },
-    { roomNumberString: 'P-103', xCoord: 20, yCoord: 55 },
-    { roomNumberString: 'P-104', xCoord: 30, yCoord: 34 },
-    { roomNumberString: 'P-105', xCoord: 36, yCoord: 57 }, // Format x% from left, y% from top with (0,0) being top left
+    { roomNumberString: 'P-101', xCoord: 5, yCoord: 52 },
+    { roomNumberString: 'P-102', xCoord: 5, yCoord: 34 },
+    { roomNumberString: 'P-103', xCoord: 20, yCoord: 52 },
+    { roomNumberString: 'P-104', xCoord: 30, yCoord: 32 },
+    { roomNumberString: 'P-105', xCoord: 36, yCoord: 53 }, // Format x% from left, y% from top with (0,0) being top left
 ];
 
 const FloorPlanOverlay: React.FC = () => {
@@ -37,6 +38,11 @@ const FloorPlanOverlay: React.FC = () => {
                     <RoomButton key={index} roomNumberString={room.roomNumberString} x={room.xCoord} y = {room.yCoord} />
                 ))}
             </div>
+            <Box margin='m' padding='m'>
+                <Button href='/map-selection'>
+                    Back
+                </Button>
+            </Box>
         </div>
     );
 };
@@ -65,25 +71,48 @@ const RoomButton: React.FC<RoomButtonProps> = ({ roomNumberString, x, y }) => {
                         <Modal
                             onDismiss={() => setVisible(false)}
                             visible={visible}
-                            size="small"
+                            size="medium"
                             footer={
                                 <Box float="right">
-                                <SpaceBetween direction="horizontal" size="xs">
                                     <Button variant="link">Cancel</Button>
-                                    <Button variant="primary">Ok</Button>
-                                </SpaceBetween>
                                 </Box>
                             }
-                            header="Modal title"
+                            header={'Room: '+roomNumberString}
                             >
-                            {roomNumberString}
+                                <SpaceBetween direction='vertical' size='s'>
+                                    <Link variant='primary'>
+                                        Room Tour
+                                    </Link>
+                                    <Header
+                                        variant='h3'
+                                        actions={
+                                            <SpaceBetween direction="horizontal" size="xs">
+                                            <Button variant="primary" href='/review'>
+                                                Reserve
+                                            </Button>
+                                            </SpaceBetween>
+                                        }
+                                    >
+                                        {roomNumberString + "A"}
+                                    </Header>
+                                    <Header
+                                        variant='h3'
+                                        actions={
+                                            <SpaceBetween direction="horizontal" size="xs">
+                                            <Button variant="primary" href='/review'>
+                                                Reserve
+                                            </Button>
+                                            </SpaceBetween>
+                                        }
+                                    >
+                                        {roomNumberString + "B"}
+                                    </Header>
+                            </SpaceBetween>
                         </Modal>
                     </Button>
                     <Badge color='green'> Vacant </Badge>
                 </SpaceBetween>
             </Box>
-            
-
         </div>
     );
 };

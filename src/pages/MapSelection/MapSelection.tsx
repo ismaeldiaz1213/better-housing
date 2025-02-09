@@ -1,4 +1,4 @@
-import { Box, Select, Container, ContentLayout, Header, ExpandableSection } from "@cloudscape-design/components";
+import { Box, Select, Container, ContentLayout, Header, ExpandableSection, Button } from "@cloudscape-design/components";
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 import floorPlanBase from '../../KilgoFloorPlans/24-25 Kilgo-1.png';
@@ -137,6 +137,11 @@ const MapSelection: React.FC = () => {
           </ExpandableSection>
         </Container>
       </ContentLayout>
+      <Box margin='m' padding='m'>
+                <Button href='/home'>
+                    Back
+                </Button>
+      </Box>
     </>
   );
 };
