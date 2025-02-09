@@ -1,11 +1,14 @@
-import { Button, Container, Form, FormField, Header, Input, SpaceBetween } from "@cloudscape-design/components";
-import React from "react";
+import { Button, Container, Form, FormField, Header, Input, SpaceBetween, Flashbar } from "@cloudscape-design/components";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const LogInPage: React.FC = () => {
-    const [usernameIn, setusernameIn] = React.useState("Joe Mama");
-    const [password, setuserPassword] = React.useState("GTHC");
+    const navigate = useNavigate();
+    const [usernameIn, setusernameIn] = React.useState("");
+    const [password, setuserPassword] = React.useState("");
     const [data, setData] = React.useState<{ users: { net_id: string, password: string, gender_preference: string, bed_time: string, noise_level: number, tidiness: number}[] }>({ users: [] });
     const [validatedState, updateValidation] = React.useState('');
+    const [isLoading, setIsLoading] = React.useState(false);
  
     
     const handleChangeUsername = ({ detail }: { detail: { value: string } }) => {
@@ -17,44 +20,69 @@ const LogInPage: React.FC = () => {
     };
 
     const connect = async () => {
+      setIsLoading(true);
       await fetch("http://localhost:8000/users")
       .then((res) => res.json())
       .then((data) => {
-        
-        setData(data)})
-      .catch((error) => console.log("Error", error)).finally(() => {
+        setData(data);
         
       })
+      .catch((error) => {
+        console.log("Error", error);
+        
+      })
+
+
     }  
   
+    useEffect(() => {
+      if (data.users.length > 0) {
+          console.log("data is not empty")
+          console.log(data.users)
+          const usernames = data.users.map(user => user.net_id);
+          const passwords = data.users.map(user => user.password);
+          console.log(usernameIn);
+          console.log(usernames);
+          console.log(password);
+          console.log(passwords);
+          
+
+          if (usernames.includes(usernameIn) && passwords.includes(password)) {
+            console.log("correct");
+            updateValidation(' ');
+            navigate('/map-selection');
+          } else {
+            updateValidation('Incorrect login information!');
+          }
+          setIsLoading(false);
+
+      } else {
+        console.log("data is empty")
+      }
+    }, [data.users, password, usernameIn, navigate]);
+
+
     const handleSubmit = async () => {
       // Call connect first to fetch the data
       await connect();
-      
-      if (!data.users) {
-        console.error("No user data available");
-        return;
-      }
-
-      const usernames = data.users.map(user => user.net_id);
-      const passwords = data.users.map(user => user.password);
-        
-      console.log(usernameIn);
-      console.log(usernames);
-      console.log(password);
-      console.log(passwords);
-        // Now check if the inputValue is in the data array
-      if (usernames.includes(usernameIn) && passwords.includes(password)) {
-        console.log("correct");
-        updateValidation(' ');
-      } else {
-        updateValidation('Incorrect login information!');
-        }
     };
 
 
     return (
         <form onSubmit= {e => e.preventDefault()}>
+          <Flashbar
+            items={
+              isLoading
+                ? [
+                    {
+                      type: 'info',
+                      loading: true,
+                      content: 'Loading user data...',
+                    },
+                  ]
+                : []
+            }
+          />
           <Form
             actions={
               <SpaceBetween direction="horizontal" size="xs">
