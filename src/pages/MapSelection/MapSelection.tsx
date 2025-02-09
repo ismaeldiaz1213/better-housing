@@ -1,12 +1,18 @@
-import { Box, Select, Container, ContentLayout, Header } from "@cloudscape-design/components";
+import { Box, Select, Container, ContentLayout, Header, ExpandableSection } from "@cloudscape-design/components";
 import React from "react";
-import './style.css';
-import FloorPlanOverlay from "./floorPlanOverlay";
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import floorPlanBase from '../../KilgoFloorPlans/24-25 Kilgo-1.png';
+import floorPlan1 from '../../KilgoFloorPlans/24-25 Kilgo-2.png';
+import floorPlan2 from '../../KilgoFloorPlans/24-25 Kilgo-3.png';
+import floorPlan3 from '../../KilgoFloorPlans/24-25 Kilgo-4.png';
+import floorPlan4 from '../../KilgoFloorPlans/24-25 Kilgo-5.png';
+import floorPlan5 from '../../KilgoFloorPlans/24-25 Kilgo-6.png';
 
 const MapSelection: React.FC = () => {
-  const [floorPosition, setFloorPosition] = React.useState("1st Floor");
-  const [housePosition, setHousePosition] = React.useState("House O");
+  const [floorPosition, setFloorPosition] = React.useState("Choose a Floor and a House");
+  const [housePosition, setHousePosition] = React.useState("");
+
+  const navigate  = useNavigate();
 
   // Floor data with nested houses
   const floorData = [
@@ -48,7 +54,7 @@ const MapSelection: React.FC = () => {
     setFloorPosition(selectedFloor);
     setHousePosition(selectedHouse);
 
-    //navigate(`/floor/${selectedFloor}/house/${selectedHouse}`);
+    navigate(`/map-selection/floor/${selectedFloor}/house/${selectedHouse}`);
   };
 
   // Create options with nested house options
@@ -74,20 +80,61 @@ const MapSelection: React.FC = () => {
       >
         <Container
           header={
-            <Header variant="h2">Room Selection - {floorPosition} - {housePosition}</Header>
+            <Header variant="h2">Floor Plan Selection - {floorPosition} - {housePosition}</Header>
           }
         >
           <Box margin="xxs" padding="xxs" textAlign="left">
             {/* Single Select for Floor and House */}
+            <p>Select a floor plan using the dropdown below, then select your room in the new page.</p>
             <Select
               selectedOption={{ label: `${housePosition} (${floorPosition})`, value: selectedOption }}
               onChange={handleSelection}
               options={selectOptions}
             />
           </Box>
-          
-          <FloorPlanOverlay />
-
+          <Header variant="h2">Floor Plans for Reference</Header>
+          <ExpandableSection headerText="Basement Floor">
+          <img
+                src = {floorPlanBase}
+                alt="basement floor plan"
+                className="background-image"
+            />
+          </ExpandableSection>
+          <ExpandableSection headerText="1st Floor">
+          <img
+                src = {floorPlan1}
+                alt="1st floor plan"
+                className="background-image"
+            />
+          </ExpandableSection>
+          <ExpandableSection headerText="2nd Floor">
+          <img
+                src = {floorPlan2}
+                alt="2nd floor plan"
+                className="background-image"
+            />
+          </ExpandableSection>
+          <ExpandableSection headerText="3rd Floor">
+          <img
+                src = {floorPlan3}
+                alt="3rd floor plan"
+                className="background-image"
+            />
+          </ExpandableSection>
+          <ExpandableSection headerText="4thFloor">
+          <img
+                src = {floorPlan4}
+                alt="4th floor plan"
+                className="background-image"
+            />
+          </ExpandableSection>
+          <ExpandableSection headerText="5th Floor">
+          <img
+                src = {floorPlan5}
+                alt="5th floor plan"
+                className="background-image"
+            />
+          </ExpandableSection>
         </Container>
       </ContentLayout>
     </>

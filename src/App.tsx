@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LogInPage from './pages/LogInPage';
 import Home from './pages/Home/Home';
 import MapSelection from './pages/MapSelection/MapSelection';
+import RoomSelection from './pages/MapSelection/RoomSelection';
 import NotFoundPage from './pages/NotFoundPage';
 import { TopNavigation } from '@cloudscape-design/components';
 
@@ -30,6 +31,7 @@ const App: React.FC = () => {
             <Route path="/home" element={<Home />} />
             <Route path="/" element={<LogInPage />} />
             <Route path="/map-selection" element={<MapSelection />} />
+            <Route path="map-selection/floor/:floor/house/:house" element={<RoomSelection />} /> 
             {/* Add a wildcard route for 404 */}
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
