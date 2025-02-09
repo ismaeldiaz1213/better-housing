@@ -10,6 +10,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import { TopNavigation } from '@cloudscape-design/components';
 import ReviewHousingInfo from './pages/ReviewHousingInfo';
 import UserPreferences from './pages/user_preferences';
+import Panorama from './KilgoRoomTour/panorama_sample';
 
 
 // Define a functional component with TypeScript annotations
@@ -32,6 +33,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/home" element={<Home />} />
             <Route path="/" element={<LogInPage />} />
+            <Route path="/room-tour" element={<Panorama />}/>
             <Route path="/map-selection" element={<MapSelection />} />
             <Route path="/review" element={<ReviewHousingInfo />} />
             <Route path="map-selection/floor/:floor/house/:house" element={<RoomSelection />} /> 

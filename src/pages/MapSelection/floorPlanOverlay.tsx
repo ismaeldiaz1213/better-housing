@@ -63,10 +63,17 @@ const RoomButton: React.FC<RoomButtonProps> = ({ roomNumberString, x, y , roomOc
             return 'green';
         } else if (roomOccupancy === 'Occupied'){
             return 'red'
-        } else if (roomOccupancy === 'semiOccupied') {
+        } else if (roomOccupancy === 'Semi-Occupied') {
             return 'severity-medium';
         }
         return 'severity-low';
+    };
+
+    const disableButton = ():boolean => {
+        if(roomOccupancy === 'Occupied' || roomOccupancy === 'In-Review'){
+            return true;
+        }
+        return false;
     };
 
     return (
@@ -80,7 +87,7 @@ const RoomButton: React.FC<RoomButtonProps> = ({ roomNumberString, x, y , roomOc
         >
             <Box>
                 <SpaceBetween direction="vertical" alignItems="center" size="xs">
-                    <Button onClick={handleButtonClick}>
+                    <Button onClick={handleButtonClick} disabled={disableButton()}>
                         {roomNumberString}
                         <Modal
                             onDismiss={() => setVisible(false)}
@@ -94,7 +101,7 @@ const RoomButton: React.FC<RoomButtonProps> = ({ roomNumberString, x, y , roomOc
                             header={'Room: ' + roomNumberString}
                         >
                             <SpaceBetween direction="vertical" size="s">
-                                <Link variant="primary">
+                                <Link external variant="primary" href='/room-tour'>
                                     Room Tour
                                 </Link>
                                 <Header
