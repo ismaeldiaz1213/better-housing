@@ -1,19 +1,19 @@
-const knex = require("./knex");
+const { userKnex } = require("./knex");
 
 function createUser(user){
-    return knex("user_table").insert(user);
+    return userKnex("user_table").insert(user);
 }
 
 function getAllUsers(){
-    return knex("user_table").select("*");
+    return userKnex("user_table").select("*");
 }
 
 function deleteUser(net_id){
-    return knex("user_table").where("net_id", net_id).del();
+    return userKnex("user_table").where("net_id", net_id).del();
 }
 
 function updateUser(net_id, user){
-    return knex("user_table").where("net_id", net_id).update(user);
+    return userKnex("user_table").where("net_id", net_id).update(user);
 }
 
 module.exports = {

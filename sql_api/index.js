@@ -5,6 +5,7 @@ const app = express();
 const cors = require("cors")
 app.use(cors())
 const db = require("./db/users");
+const rooms = require("./db/rooms");
 
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
@@ -34,6 +35,34 @@ app.get("/users", async (req, res) => {
 //updating mechanism
 app.patch("/users/:net_id", async (req, res) => {
     const net_id = await db.updateUser(req.params.net_id, req.body)
+});
+
+// GET all rooms
+app.get("/rooms", async (req, res) => {
+    const roomsData = await rooms.getAllRooms();
+    res.status(200).json({roomsData});
+});
+
+
+app.get("/rooms/:room_id", async (req, res) => {
+    const room = await rooms.getRoomById(req.params.room_id);
+    res.status(200).json(room);
+});
+
+
+app.patch("/rooms/:room_id", async (req, res) => {
+    const room = await rooms.updateRoom(req.params.room_id, req.body);
+    res.status(200).json(room);
+});
+
+
+app.post("/rooms", async (req, res) => {
+    try {
+        const results = await rooms.createRoom(req.body);
+        res.status(201).json({ room_id: results[0] });
+    } catch (error) {
+        res.status(500).json({ error: "Failed to create room" });
+    }
 });
 
 app.listen(8000, () => console.log("server is running on port 8000"));
