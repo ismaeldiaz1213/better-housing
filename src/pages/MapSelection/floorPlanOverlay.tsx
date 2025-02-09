@@ -1,45 +1,49 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './floorPlan.css';
 import floorPlan from '../../KilgoFloorPlans/24-25 Kilgo-floor1-houseP.png';
-import picture from '../../pictureIcon.svg';
-import { Badge, Box, Button, Header, Link, Modal, SpaceBetween } from '@cloudscape-design/components';
-
-type roomNumberType = {
-    roomNumberString: string;
-    xCoord: number;
-    yCoord: number; 
-};
+import { Badge, BadgeProps, Box, Button, Header, Link, Modal, SpaceBetween } from '@cloudscape-design/components';
+import { getRoomStatus, roomType } from '../MapSelection/floorPlanRequests';
 
 type RoomButtonProps = {
     roomNumberString: string;
+    roomOccupancy: string;
+    bedATaken: boolean;
+    bedBTaken?: boolean;
     x: number;
     y: number;
 };
 
-const roomData: roomNumberType[] = [
-    { roomNumberString: 'P-101', xCoord: 5, yCoord: 52 },
-    { roomNumberString: 'P-102', xCoord: 5, yCoord: 34 },
-    { roomNumberString: 'P-103', xCoord: 20, yCoord: 52 },
-    { roomNumberString: 'P-104', xCoord: 30, yCoord: 32 },
-    { roomNumberString: 'P-105', xCoord: 36, yCoord: 53 }, // Format x% from left, y% from top with (0,0) being top left
-];
-
 const FloorPlanOverlay: React.FC = () => {
+    const [roomData, setRoomData] = useState<roomType[]>([]);
+
+    // Fetch the room status data on component mount
+    useEffect(() => {
+        const rooms = getRoomStatus();
+        setRoomData(rooms);
+    }, []);
+
     return (
         <div className="image-container">
             <img
-                src = {floorPlan}
+                src={floorPlan}
                 alt="background"
                 className="background-image"
             />
-            {/* Your React components */}
             <div className="button-container">
                 {roomData.map((room, index) => (
-                    <RoomButton key={index} roomNumberString={room.roomNumberString} x={room.xCoord} y = {room.yCoord} />
+                    <RoomButton
+                        key={index}
+                        roomNumberString={room.roomNumberString}
+                        x={room.xCoord} // Ensure you have the xCoord property in your data structure
+                        y={room.yCoord} // Ensure you have the yCoord property in your data structure
+                        roomOccupancy={room.occupancyStatus}
+                        bedATaken={room.bedATaken}
+                        bedBTaken={room.bedBTaken}
+                    />
                 ))}
             </div>
-            <Box margin='m' padding='m'>
-                <Button href='/map-selection'>
+            <Box margin="m" padding="m">
+                <Button href="/map-selection">
                     Back
                 </Button>
             </Box>
@@ -47,12 +51,22 @@ const FloorPlanOverlay: React.FC = () => {
     );
 };
 
-
-const RoomButton: React.FC<RoomButtonProps> = ({ roomNumberString, x, y }) => {
+const RoomButton: React.FC<RoomButtonProps> = ({ roomNumberString, x, y , roomOccupancy, bedATaken, bedBTaken}) => {
     const [visible, setVisible] = React.useState(false);
 
     const handleButtonClick = () => {
         setVisible(!visible);
+    };
+
+    const determineColor = ():BadgeProps["color"] =>{
+        if(roomOccupancy === 'Vacant'){
+            return 'green';
+        } else if (roomOccupancy === 'Occupied'){
+            return 'red'
+        } else if (roomOccupancy === 'semiOccupied') {
+            return 'severity-medium';
+        }
+        return 'severity-low';
     };
 
     return (
@@ -65,7 +79,7 @@ const RoomButton: React.FC<RoomButtonProps> = ({ roomNumberString, x, y }) => {
             }}
         >
             <Box>
-                <SpaceBetween direction='vertical' alignItems= 'center' size='xs'>
+                <SpaceBetween direction="vertical" alignItems="center" size="xs">
                     <Button onClick={handleButtonClick}>
                         {roomNumberString}
                         <Modal
@@ -77,40 +91,40 @@ const RoomButton: React.FC<RoomButtonProps> = ({ roomNumberString, x, y }) => {
                                     <Button variant="link">Cancel</Button>
                                 </Box>
                             }
-                            header={'Room: '+roomNumberString}
-                            >
-                                <SpaceBetween direction='vertical' size='s'>
-                                    <Link variant='primary'>
-                                        Room Tour
-                                    </Link>
-                                    <Header
-                                        variant='h3'
-                                        actions={
-                                            <SpaceBetween direction="horizontal" size="xs">
-                                            <Button variant="primary" href='/review'>
+                            header={'Room: ' + roomNumberString}
+                        >
+                            <SpaceBetween direction="vertical" size="s">
+                                <Link variant="primary">
+                                    Room Tour
+                                </Link>
+                                <Header
+                                    variant="h3"
+                                    actions={
+                                        <SpaceBetween direction="horizontal" size="xs">
+                                            <Button variant="primary" href="/review" disabled={bedATaken}>
                                                 Reserve
                                             </Button>
-                                            </SpaceBetween>
-                                        }
-                                    >
-                                        {roomNumberString + "A"}
-                                    </Header>
-                                    <Header
-                                        variant='h3'
-                                        actions={
-                                            <SpaceBetween direction="horizontal" size="xs">
-                                            <Button variant="primary" href='/review'>
+                                        </SpaceBetween>
+                                    }
+                                >
+                                    {roomNumberString + "A"}
+                                </Header>
+                                <Header
+                                    variant="h3"
+                                    actions={
+                                        <SpaceBetween direction="horizontal" size="xs">
+                                            <Button variant="primary" href="/review" disabled={bedBTaken}>
                                                 Reserve
                                             </Button>
-                                            </SpaceBetween>
-                                        }
-                                    >
-                                        {roomNumberString + "B"}
-                                    </Header>
+                                        </SpaceBetween>
+                                    }
+                                >
+                                    {roomNumberString + "B"}
+                                </Header>
                             </SpaceBetween>
                         </Modal>
                     </Button>
-                    <Badge color='green'> Vacant </Badge>
+                    <Badge color={determineColor()}> {roomOccupancy} </Badge> {/* You could dynamically change the color based on occupancyStatus */}
                 </SpaceBetween>
             </Box>
         </div>
